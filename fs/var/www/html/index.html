@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Live Stream</title>
+    <style>
+        * { 
+            box-sizing: border-box;
+        }
+        body {
+            width: 70%;
+            margin: 0 auto;
+            padding-top: 1em;
+            text-align: center;
+        }
+        @media screen and (max-width: 768px) {
+            body {
+                width: 100%;
+                padding: 1em;
+            }
+        }
+        video {
+            width: 100%;
+        }
+        button {
+            font-family: sans-serif;
+            font-size: 3em;
+        }
+    </style>
+    <script src="/live/hls.min.js"></script>
+</head>
+<body>
+<noscript>
+    Your browser does not support Javascript.
+</noscript>
+<video id="video" muted autoplay playsinline autopictureinpicture controls controlsList="noplaybackrate nodownload">
+    Your browser does not support HTML5 video.
+</video>
+<button onclick="video.muted=false">Unmute</button>
+<script>
+var video = document.getElementById('video');
+var videoSrc = '/'+location.search.slice(1)+'/index.m3u8';
+if(Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+}
+else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+}
+else {
+    alert('Your browser does not support HLS video playback.');
+}
+</script>
+</body>
+</html>
